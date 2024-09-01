@@ -51,7 +51,7 @@ public class Producto {
         return descripcion;
     }
 
-    public void setDescripción(String descripcion) {
+    public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
 
@@ -96,7 +96,6 @@ public class Producto {
                 ", imagen='" + imagen + '\'' +
                 ", precio=" + precio +
                 ", cantidad=" + cantidad +
-                ", usuario=" + usuario +
                 '}';
     }
 }
