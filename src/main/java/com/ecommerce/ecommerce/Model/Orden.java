@@ -14,25 +14,27 @@ public class Orden {
     private Integer id;
     private String numero;
     private Date fechaCreacion;
-    private Date horaRecibida;
-    private double Total;
+    private Date fechaRecibida;
 
-    @OneToOne(mappedBy = "orden")
-    private DetalleOrden detalles;
+    private double total;
+
 
     @ManyToOne
     private Usuario usuario;
 
+    @OneToMany(mappedBy = "orden")
+    private List<DetalleOrden> detalle;
+
     public Orden() {
     }
 
-    public Orden(Integer id, String numero, Date fechaCreacion, Date horaRecibida, double total, Usuario usuario) {
+    public Orden(Integer id, String numero, Date fechaCreacion, Date fechaRecibida, double total) {
+        super();
         this.id = id;
         this.numero = numero;
         this.fechaCreacion = fechaCreacion;
-        this.horaRecibida = horaRecibida;
-        Total = total;
-        this.usuario = usuario;
+        this.fechaRecibida = fechaRecibida;
+        this.total = total;
     }
 
     public Integer getId() {
@@ -59,21 +61,22 @@ public class Orden {
         this.fechaCreacion = fechaCreacion;
     }
 
-    public Date getHoraRecibida() {
-        return horaRecibida;
+    public Date getFechaRecibida() {
+        return fechaRecibida;
     }
 
-    public void setHoraRecibida(Date horaRecibida) {
-        this.horaRecibida = horaRecibida;
+    public void setFechaRecibida(Date fechaRecibida) {
+        this.fechaRecibida = fechaRecibida;
     }
 
     public double getTotal() {
-        return Total;
+        return total;
     }
 
     public void setTotal(double total) {
-        Total = total;
+        this.total = total;
     }
+
 
     public Usuario getUsuario() {
         return usuario;
@@ -83,23 +86,20 @@ public class Orden {
         this.usuario = usuario;
     }
 
-    public DetalleOrden getDetalles() {
-        return detalles;
+
+    public List<DetalleOrden> getDetalle() {
+        return detalle;
     }
 
-    public void setDetalles(DetalleOrden detalles) {
-        this.detalles = detalles;
+    public void setDetalle(List<DetalleOrden> detalle) {
+        this.detalle = detalle;
     }
 
     @Override
     public String toString() {
-        return "Orden{" +
-                "id=" + id +
-                ", numero='" + numero + '\'' +
-                ", fechaCreacion=" + fechaCreacion +
-                ", horaRecibida=" + horaRecibida +
-                ", Total=" + Total +
-                ", usuario=" + usuario +
-                '}';
+        return "Orden [id=" + id + ", numero=" + numero + ", fechaCreacion=" + fechaCreacion + ", fechaRecibida="
+                + fechaRecibida + ", total=" + total + "]";
     }
+
+
 }

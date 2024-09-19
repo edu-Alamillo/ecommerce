@@ -4,6 +4,8 @@ import com.ecommerce.ecommerce.Model.DetalleOrden;
 import com.ecommerce.ecommerce.Model.Orden;
 import com.ecommerce.ecommerce.Model.Producto;
 import com.ecommerce.ecommerce.Model.Usuario;
+import com.ecommerce.ecommerce.Service.IDetalleOrdenService;
+import com.ecommerce.ecommerce.Service.IOrdenService;
 import com.ecommerce.ecommerce.Service.IUsuarioService;
 import com.ecommerce.ecommerce.Service.ProductoService;
 import org.slf4j.Logger;
@@ -14,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +31,12 @@ public class HomeController {
 
     @Autowired
     private IUsuarioService usuarioService;
+
+    @Autowired
+    private IOrdenService ordenService;
+
+    @Autowired
+    private IDetalleOrdenService detalleOrdenService;
 
     //para almacenar los detalles de la orden
     List<DetalleOrden> detalle = new ArrayList<DetalleOrden>();
@@ -132,4 +141,34 @@ public class HomeController {
 
         return "administrador/usuario/resumenorden";
     }
+
+    @GetMapping("/saveOrder")
+    public String saveOrder(){
+        Date fechaCreacion = new Date();
+        orden.setFechaCreacion(fechaCreacion);
+        orden.setNumero(ordenService.generarNumeroOrden());
+
+        //Usuario
+        Usuario usuario = usuarioService.finById(1).get();
+
+        orden.setUsuario(usuario);
+        ordenService.Save(orden);
+
+        //Guardar detaller
+        for (DetalleOrden dt:detalle){
+            dt.setOrden(orden);
+            detalleOrdenService.save(dt);
+        }
+
+        //limpiar lista y orden
+        orden = new Orden();
+        detalle.clear();
+
+        return"redirect:/";
+    }
 }
+
+
+
+
+
