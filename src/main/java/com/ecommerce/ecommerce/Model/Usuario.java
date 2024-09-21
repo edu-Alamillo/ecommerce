@@ -17,6 +17,9 @@ public class Usuario {
     private String email;
     private String tipo;
 
+    private String direccion;
+    private String password;
+
     @OneToMany(mappedBy = "usuario")
     private List<Producto> productos;
 
@@ -37,11 +40,6 @@ public class Usuario {
         this.email = email;
         this.tipo = tipo;
     }
-
-    private String direccion;
-    private String password;
-
-
 
     public Integer getId() {
         return id;
