@@ -4,10 +4,8 @@ import com.ecommerce.ecommerce.Model.DetalleOrden;
 import com.ecommerce.ecommerce.Model.Orden;
 import com.ecommerce.ecommerce.Model.Producto;
 import com.ecommerce.ecommerce.Model.Usuario;
-import com.ecommerce.ecommerce.Service.IDetalleOrdenService;
-import com.ecommerce.ecommerce.Service.IOrdenService;
-import com.ecommerce.ecommerce.Service.IUsuarioService;
-import com.ecommerce.ecommerce.Service.ProductoService;
+import com.ecommerce.ecommerce.Service.*;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +44,9 @@ public class HomeController {
     Orden orden = new Orden();
 
     @GetMapping("")
-    public String home(Model model){
+    public String home(Model model, HttpSession session){
+
+        log.info("Sesion del usuario: {}", session.getAttribute("idusuario"));
 
         model.addAttribute("productos", productoService.findAll());
 
@@ -132,9 +132,9 @@ public class HomeController {
     }
 
     @GetMapping("/order")
-    public String order(Model model){
+    public String order(Model model, HttpSession session){
 
-        Usuario usuario = usuarioService.finById(1).get();
+        Usuario usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
 
         model.addAttribute("cart", detalle);
         model.addAttribute("orden", orden);
@@ -144,13 +144,13 @@ public class HomeController {
     }
 
     @GetMapping("/saveOrder")
-    public String saveOrder(){
+    public String saveOrder(HttpSession session){
         Date fechaCreacion = new Date();
         orden.setFechaCreacion(fechaCreacion);
         orden.setNumero(ordenService.generarNumeroOrden());
 
         //Usuario
-        Usuario usuario = usuarioService.finById(1).get();
+        Usuario usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
 
         orden.setUsuario(usuario);
         ordenService.Save(orden);
@@ -165,7 +165,7 @@ public class HomeController {
         orden = new Orden();
         detalle.clear();
 
-        return"redirect:/";
+        return "redirect:/";
     }
 
     @PostMapping("/search")
