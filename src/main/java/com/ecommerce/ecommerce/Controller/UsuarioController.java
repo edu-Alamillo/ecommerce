@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
 
 import java.util.Optional;
 
@@ -59,5 +60,11 @@ public class UsuarioController {
         }
 
         return "redirect:/";
+    }
+
+    @GetMapping("/compras")
+    public String obtenerCompras(Model model, HttpSession session){
+        model.addAttribute("sesion", session.getAttribute("idusuario"));
+        return "administrador/usuario/compras";
     }
 }

@@ -22,9 +22,11 @@
 <body>
 
   <!-- Navigation -->
-  <div th:include="administrador/usuario/template_usuario.html::header">
-
+  <div th:include="administrador/usuario/template_usuario.html::header" th:if="${sesion==null}">
   </div>
+
+  <div th:include="administrador/usuario/template_usuario.html::header-user" th:unless="${sesion==null}"> </div>
+
 
     <!-- Page Content -->
     <div class="container">
@@ -58,7 +60,7 @@
     <!-- /.container -->
 
     <!-- Footer -->
-  <div th:include="administrador/usuario/template_usuario.html::footer">
+  <div th:replace="administrador/usuario/template_usuario.html::footer">
 
   </div>
 
