@@ -23,10 +23,7 @@
 
   <!-- Navigation -->
 
-  <div th:insert="~{administrador/usuario/template_usuario.html::header}" th:if="${sesion==null}">
-  </div>
-
-  <div th:insert="~{administrador/usuario/template_usuario.html::header-user}" th:unless="${sesion==null}"> </div>
+  <div th:include="administrador/template_admin.html::header"></div>
 
     <!-- Page Content -->
     <div class="container">
