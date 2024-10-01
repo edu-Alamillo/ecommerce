@@ -22,7 +22,7 @@ public class Orden {
     @ManyToOne
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "orden")
+    @OneToMany(mappedBy = "orden", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DetalleOrden> detalle;
 
     public Orden() {
