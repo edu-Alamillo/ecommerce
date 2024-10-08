@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,6 +22,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
     private IUsuarioService usuarioService;
 
     @Autowired
+    @Lazy
     private BCryptPasswordEncoder bCrypt;
 
     @Autowired
@@ -38,10 +40,9 @@ public class UserDetailServiceImpl implements UserDetailsService {
             log.info("Esto es el id del usuario: {}", usuario.getId());
             session.setAttribute("idusuario", usuario.getId());
 
-            // No cifrar nuevamente la contraseña, ya está cifrada en la base de datos
             return User.builder()
                     .username(usuario.getNombre())
-                    .password(usuario.getPassword()) // Usar la contraseña tal como está almacenada
+                    .password(usuario.getPassword())
                     .roles(usuario.getTipo())
                     .build();
         } else {
